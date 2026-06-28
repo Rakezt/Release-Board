@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Release Checklist
 
-## Getting Started
+A simple full-stack Release Checklist application built with **Next.js**, **TypeScript**, **MongoDB**, and **Material UI**.
 
-First, run the development server:
+## Tech Stack
+
+- Next.js 16 (App Router)
+- TypeScript
+- MongoDB + Mongoose
+- Material UI
+- React Query
+- Axios
+- Zod
+
+---
+
+## Features
+
+- View all releases
+- Create a new release
+- View release details
+- Update release checklist
+- Update additional information
+- Delete a release
+- Automatic release status calculation:
+  - **Planned** – No steps completed
+  - **Ongoing** – At least one step completed
+  - **Done** – All steps completed
+
+---
+
+## Installation
 
 ```bash
+git clone <repository-url>
+
+cd release-board
+
+npm install
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Application runs on:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+MONGODB_URI=<your_mongodb_connection_string>
+NEXT_PUBLIC_APP_NAME=Release Checklist
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## API Endpoints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Method | Endpoint            | Description         |
+| ------ | ------------------- | ------------------- |
+| GET    | `/api/releases`     | Get all releases    |
+| POST   | `/api/releases`     | Create a release    |
+| GET    | `/api/releases/:id` | Get release details |
+| PATCH  | `/api/releases/:id` | Update release      |
+| DELETE | `/api/releases/:id` | Delete release      |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Database Schema
+
+### Collection
+
+```
+cactro-release
+```
+
+### Document Structure
+
+```json
+{
+  "_id": "ObjectId",
+  "name": "Release v1.0.0",
+  "releaseDate": "Date",
+  "additionalInfo": "Optional notes",
+  "steps": {
+    "mergedPRs": false,
+    "changelogUpdated": false,
+    "testsPassing": false,
+    "githubReleaseCreated": false,
+    "deployedToDemo": false,
+    "qaVerified": false,
+    "productionDeployment": false
+  },
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+---
+
+## Status Logic
+
+- **Planned** → No steps completed
+- **Ongoing** → One or more steps completed
+- **Done** → All steps completed
+
+---
+
+## Deployment
+
+The application can be deployed to platforms such as:
+
+- Netlify
